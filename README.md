@@ -19,4 +19,4 @@ Notice: a single > will overwrite the index.js file
 
 # License
 
-MIT [http://rem.mit-license.org](http://rem.mit-license.org)
+GPL 3.0 [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
