@@ -3,7 +3,8 @@
 // cSpell:ignore unplugin
 
 import fs from 'node:fs'
-import { argv } from 'node:process';
+import path from 'node:path'
+import { argv } from 'node:process'
 
 import { expCollector } from 'unplugin-export-collector/core'
 
@@ -31,7 +32,13 @@ const srcFiles = files
               .filter(fn => fn.indexOf('node_modules') == -1)
 
 let ans = await Promise.all( srcFiles.map( async (fname) => {
-  const names = await expCollector(fname)
+  const file = path.join(dir, fname)
+  let names = []
+  try {
+    names = await expCollector(file)
+  } catch (error) {
+    console.log('// Error parsing', file, file+'.jsx')
+  }
   return { fname, names }
 }))
 

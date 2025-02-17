@@ -17,6 +17,13 @@ npx gen_named_exports . >index.js
 
 Notice: a single > will overwrite the index.js file
 
+# Known problems:
+
+- gen_named_exports uses unplugin-export-collector/core's expCollector, which uses @swc/core to parse.  If you use JSX syntax in .js files,
+  parsing that file will crash and the file will be skipped from the generated output.
+
+  Current work-around: rename files containing JSX syntax to .jsx file extension.
+
 # License
 
 GPL 3.0 [https://www.gnu.org/licenses/gpl-3.0.en.html](https://www.gnu.org/licenses/gpl-3.0.en.html)
