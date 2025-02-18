@@ -22,7 +22,7 @@ console.log('// scanning', dir)
 const files = await fs.promises.readdir(dir, { recursive: true })
 
 const srcFiles = files
-              .filter(fn => (fn.endsWith('.js') || fn.endsWith('.mjs')) )
+              .filter(fn => (fn.endsWith('.js') || fn.endsWith('.jsx') || fn.endsWith('.mjs')) )
               .filter(fn => fn !== 'gen_named_exports.mjs')
               .filter(fn => fn !== 'index.js')
               .filter(fn => fn !== 'index.mjs')
