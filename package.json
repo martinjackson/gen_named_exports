@@ -1,6 +1,6 @@
 {
   "name": "gen_named_exports",
-  "version": "0.9.4",
+  "version": "0.9.5",
   "description": "an npx utility to scan a source tree and build an import/export file of all the named exports",
   "keywords": [
     "nodejs",

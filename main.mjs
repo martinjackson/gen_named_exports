@@ -51,6 +51,8 @@ const files = await fs.promises.readdir(dir, { recursive: true })
 const srcFiles = files
               .filter(fn => (fn.endsWith('.js') || fn.endsWith('.jsx') || fn.endsWith('.mjs')) )
               .filter(fn => !ignore(fn))
+              .filter(fn => fn.indexOf('.test.') == -1)
+              .filter(fn => fn.indexOf('.spec.') == -1)
               .filter(fn => fn.indexOf('node_modules') == -1)
 
 let ans = await Promise.all( srcFiles.map( async (fname) => {

@@ -24,6 +24,8 @@ npx gen_named_exports . >index.js
 
 Notice: a single > will overwrite the index.js file
 
+Version 0.9.5 and later skips *.test.* and *.spec.* files
+
 # Known problems:
 
 - gen_named_exports uses unplugin-export-collector/core's expCollector, which uses
