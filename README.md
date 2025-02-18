@@ -1,3 +1,4 @@
+
 <p align="center">
   <img src="npx-wrench.svg" alt="NPX Wrench Logo">
 </p>
@@ -22,7 +23,7 @@ Notice: a single > will overwrite the index.js file
 - gen_named_exports uses unplugin-export-collector/core's expCollector, which uses @swc/core to parse.  If you use JSX syntax in .js files,
   parsing that file will crash and the file will be skipped from the generated output.
 
-  Current work-around: rename files containing JSX syntax to .jsx file extension.
+  Current work-around: rename files containing JSX syntax to .jsx file extension and .jsx files will be parsed differently.
 
 # License
 

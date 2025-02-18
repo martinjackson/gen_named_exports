@@ -9,6 +9,33 @@ import { argv } from 'node:process'
 import { expCollector } from 'unplugin-export-collector/core'
 
 
+
+// ------------------------------------------------------------------------------------------------
+function ignore(fileName) {
+  const ignoredFiles = ['index.js', 'index.mjs', 'main.js', 'main.mjs', 'serviceWorker.js']
+
+  const justFile = path.basename(fileName)
+  return (ignoredFiles.indexOf(justFile) > -1)
+}
+
+// ------------------------------------------------------------------------------------------------
+function getFunctionName(line) {
+  const word = line.split(' ')[2]  // get 3rd word
+  const i = word.indexOf('(')
+  return (i != -1) ? word.substr(0,i) : word.trim()
+}
+
+// ------------------------------------------------------------------------------------------------
+function processJsx(fileName) {
+  const names = fs.readFileSync(fileName,{ encoding : 'utf8' })
+      .split('\n')
+      .filter( line => line.includes('export '))
+      .filter( line => !line.includes('export default'))
+      .map(line => getFunctionName(line))
+
+  return names.sort()
+}
+
 console.log(`
 // cSpell:ignore
 
@@ -23,22 +50,22 @@ const files = await fs.promises.readdir(dir, { recursive: true })
 
 const srcFiles = files
               .filter(fn => (fn.endsWith('.js') || fn.endsWith('.jsx') || fn.endsWith('.mjs')) )
-              .filter(fn => fn !== 'gen_named_exports.mjs')
-              .filter(fn => fn !== 'index.js')
-              .filter(fn => fn !== 'index.mjs')
-              .filter(fn => fn !== 'main.js')
-              .filter(fn => fn !== 'main.mjs')
-              .filter(fn => fn !== 'serviceWorker.js')
+              .filter(fn => !ignore(fn))
               .filter(fn => fn.indexOf('node_modules') == -1)
 
 let ans = await Promise.all( srcFiles.map( async (fname) => {
   const file = path.join(dir, fname)
   let names = []
-  try {
-    names = await expCollector(file)
-  } catch (error) {
-    console.log('// Error parsing', file, file+'.jsx')
-  }
+
+    if (file.endsWith('.jsx')) {
+      names = processJsx(file)
+    } else {
+      try {
+        names = await expCollector(file)
+      } catch (error) {
+        console.log('// Error parsing', file)
+      }
+    }
   return { fname, names }
 }))
 
